@@ -11,7 +11,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/ticket/:id" element={<TicketPage editMode={true} />} />
+          <Route path="/ticket" element={<TicketPage editMode={true} />} />
         </Routes>
       </BrowserRouter>
     </div>
