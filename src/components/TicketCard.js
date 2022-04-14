@@ -9,13 +9,13 @@ import DeleteBlock from "./DeleteBlock";
 function TicketCard({ color, ticket }) {
   return (
     <div className="ticket-card">
-      <div className="ticket-color"></div>
       <Link to={`/ticket/${ticket.documentId}`} id="link">
+        <div className="ticket-color" style={{ backgroundColor: color }}></div>
         <h3>{ticket.title}</h3>
-        <AvatarDisplay />
-        <StatusDisplay />
-        <PriorityDisplay />
-        <ProgressDisplay />
+        <AvatarDisplay ticket={ticket} />
+        <StatusDisplay status={ticket.status} />
+        <PriorityDisplay priority={ticket.priority} />
+        <ProgressDisplay progress={ticket.progress} />
       </Link>
       <DeleteBlock />
     </div>

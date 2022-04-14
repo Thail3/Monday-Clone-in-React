@@ -1,7 +1,11 @@
 import React from "react";
 
 function DeleteBlock() {
-  return <div>DeleteBlock</div>;
+  return (
+    <div className="delete-block">
+      <div className="delete-icon">x</div>
+    </div>
+  );
 }
 
 export default DeleteBlock;
