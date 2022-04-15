@@ -7,6 +7,10 @@ import ProgressDisplay from "./ProgressDisplay";
 import DeleteBlock from "./DeleteBlock";
 
 function TicketCard({ color, ticket }) {
+  console.log(ticket.documentId);
+
+  console.log(color);
+
   return (
     <div className="ticket-card">
       <Link to={`/ticket/${ticket.documentId}`} id="link">

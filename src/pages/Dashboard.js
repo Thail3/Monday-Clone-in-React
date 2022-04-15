@@ -18,7 +18,6 @@ function Dashboard() {
     },
     {
       category: "Q1 2022",
-      color: "red",
       title: "create Video content",
       owner: "june Jo",
       avatar:
@@ -44,7 +43,7 @@ function Dashboard() {
     },
   ];
 
-  const color = [
+  const colors = [
     "rgb(255,179,186)",
     "rgb(255,223,186)",
     "rgb(255,255,186)",
@@ -64,15 +63,15 @@ function Dashboard() {
 
       <div className="ticket-container">
         {tickets &&
-          uniqueCategories?.map((uniqueCategory, index) => (
-            <div key={index}>
+          uniqueCategories?.map((uniqueCategory, categoryIndex) => (
+            <div key={categoryIndex}>
               <h3>{uniqueCategory}</h3>
               {tickets
-                .filter((ticket) => ticket.category === uniqueCategory)
+                ?.filter((ticket) => ticket.category === uniqueCategory)
                 .map((filteredTicket, _index) => (
                   <TicketCard
                     id={_index}
-                    color={color[index] || color[0]}
+                    color={colors[categoryIndex] || colors[0]}
                     ticket={filteredTicket}
                   />
                 ))}

@@ -50,7 +50,7 @@ nav .icon {
 
 .dashboard .ticket-container {
   height: 80vh;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 /*------Tickket Card------*/
@@ -191,5 +191,5 @@ nav .icon {
 }
 
 .ticket form .multiple-input-container {
-  margin: 20px 0 0 0;
+  margin: 20px 0 20px 0;
 }

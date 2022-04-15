@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function TicketPage() {
   const [formData, setFormData] = useState({
@@ -10,13 +12,25 @@ function TicketPage() {
 
   const editMode = false;
 
-  const handleSubmit = () => {
-    console.log("submit");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!editMode) {
+      const res = await axios.post("http://localhost:8000/tickets", {
+        formData,
+      });
+      const success = res.status === 200;
+      if (success) {
+        navigate("/");
+      }
+    }
   };
 
   const handleChange = (e) => {
     const value = e.target.value;
-    const name = e.target.value;
+    const name = e.target.name;
 
     setFormData((prevState) => ({
       ...prevState,
@@ -32,7 +46,7 @@ function TicketPage() {
       <div className="ticket-container">
         <form onSubmit={handleSubmit}>
           <section>
-            <label htmlFor="title">Ticket</label>
+            <label htmlFor="title">Title</label>
             <input
               id="title"
               name="title"
@@ -83,7 +97,7 @@ function TicketPage() {
                 type="radio"
                 onChange={handleChange}
                 value={1}
-                checked={formData.priority === 1}
+                checked={formData.priority == 1}
               />
               <label htmlFor="priority-1">1</label>
 
@@ -93,7 +107,7 @@ function TicketPage() {
                 type="radio"
                 onChange={handleChange}
                 value={2}
-                checked={formData.priority === 2}
+                checked={formData.priority == 2}
               />
               <label htmlFor="priority-2">2</label>
 
@@ -103,7 +117,7 @@ function TicketPage() {
                 type="radio"
                 onChange={handleChange}
                 value={3}
-                checked={formData.priority === 3}
+                checked={formData.priority == 3}
               />
               <label htmlFor="priority-3">3</label>
 
@@ -113,7 +127,7 @@ function TicketPage() {
                 type="radio"
                 onChange={handleChange}
                 value={4}
-                checked={formData.priority === 4}
+                checked={formData.priority == 4}
               />
               <label htmlFor="priority-4">4</label>
 
@@ -123,7 +137,7 @@ function TicketPage() {
                 type="radio"
                 onChange={handleChange}
                 value={5}
-                checked={formData.priority === 5}
+                checked={formData.priority == 5}
               />
               <label htmlFor="priority-5">5</label>
             </div>
@@ -195,7 +209,7 @@ function TicketPage() {
 
             <div className="img-preview">
               {formData.avatar && (
-                <img src={formData.avatar} alt="img avatar" />
+                <img src={formData.avatar} alt="image preview" />
               )}
             </div>
           </section>
