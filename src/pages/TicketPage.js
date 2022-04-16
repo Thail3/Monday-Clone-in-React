@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CategoriesContext from "../Context/Context";
 
 function TicketPage() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ function TicketPage() {
     progress: 0,
     timestamp: new Date().toISOString(),
   });
+  const { categories, setCategories } = useContext(CategoriesContext);
   console.log(formData);
 
   const editMode = false;
@@ -39,8 +41,6 @@ function TicketPage() {
     }));
   };
 
-  const categories = ["text1", "text2"];
-
   return (
     <div className="ticket">
       <h1>{editMode ? "Update your Ticket" : "create a new Ticket"}</h1>
@@ -70,7 +70,7 @@ function TicketPage() {
             <label>Category</label>
             <select
               name="category"
-              value={FormData.category}
+              value={FormData.category || categories[0]}
               onChange={handleChange}
             >
               {categories?.map((category, _index) => (
@@ -86,7 +86,6 @@ function TicketPage() {
               name="category"
               type="text"
               onChange={handleChange}
-              required={true}
               value={FormData.category}
             />
 

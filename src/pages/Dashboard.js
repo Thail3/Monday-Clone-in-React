@@ -1,47 +1,40 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import TicketCard from "../components/TicketCard";
+import axios from "axios";
+import CategoriesContext from "../Context/Context";
 
 function Dashboard() {
-  const tickets = [
-    {
-      category: "Q1 2022",
-      color: "red",
-      title: "NFT Video",
-      owner: "Man Kind",
-      avatar:
-        "https://res.cloudinary.com/dk7xxtqnj/image/upload/v1649405472/vq1xnkg5dwrqlfdx6txv.jpg",
-      status: "done",
-      priority: 5,
-      progress: 40,
-      description: "Work in progress",
-      timestamp: "2022-02-11T07:36:17+0000",
-    },
-    {
-      category: "Q1 2022",
-      title: "create Video content",
-      owner: "june Jo",
-      avatar:
-        "https://res.cloudinary.com/dk7xxtqnj/image/upload/v1646124162/zoiklyftkouksx5lm6q8.jpg",
-      status: "working on it",
-      priority: 2,
-      progress: 70,
-      description: "Work in progress",
-      timestamp: "2022-02-13T07:36:17+0000",
-    },
-    {
-      category: "Q2 2022",
-      color: "white",
-      title: "web dev",
-      owner: "Man Kind",
-      avatar:
-        "https://res.cloudinary.com/dk7xxtqnj/image/upload/v1645343363/k24wpk6wmuusgnwhb9zf.jpg",
-      status: "working on it",
-      priority: 3,
-      progress: 10,
-      description: "Work in progress",
-      timestamp: "2022-02-15T07:36:17+0000",
-    },
-  ];
+  const [tickets, setTickets] = useState(null);
+  const { categories, setCategories } = useContext(CategoriesContext);
+
+  useEffect(() => {
+    const fetchMyAPI = async () => {
+      const response = await axios.get("http://localhost:8000/tickets");
+
+      const dataObject = response.data.data;
+
+      const arrayOfKeys = Object.keys(dataObject);
+      const arrayOfData = Object.keys(dataObject).map((key) => dataObject[key]);
+      const formattedArray = [];
+      arrayOfKeys.forEach((key, index) => {
+        const formmatedData = { ...arrayOfData[index] };
+        formmatedData["documentId"] = key;
+        formattedArray.push(formmatedData);
+      });
+
+      console.log("formattedArray", formattedArray);
+      console.log("arrayOfKeys", arrayOfKeys);
+      console.log("arrayData", arrayOfData);
+      setTickets(formattedArray);
+    };
+    fetchMyAPI();
+  }, []);
+
+  useEffect(() => {
+    setCategories([...new Set(tickets?.map(({ category }) => category))]);
+  }, [tickets]);
+
+  console.log(categories);
 
   const colors = [
     "rgb(255,179,186)",
