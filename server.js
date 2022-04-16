@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const axios = require("axios");
+const { response } = require("express");
 
 const app = express();
 app.use(cors());
@@ -47,6 +48,25 @@ app.post("/tickets", async (req, res) => {
     res.status(200).json(response.data);
   } catch (e) {
     res.status(500).json({ message: e });
+  }
+});
+
+app.delete("/tickets/:documentId", async (req, res) => {
+  const id = req.params.documentId;
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "X-cassandra-Token": token,
+    },
+  };
+  try {
+    await axios(`${url}/${id}`, options);
+    res.status(200).json(response.data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err });
   }
 });
 

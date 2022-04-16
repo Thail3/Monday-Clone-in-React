@@ -1,8 +1,15 @@
 import React from "react";
+import axios from "axios";
 
-function DeleteBlock() {
-  const deleteTicket = () => {
-    console.log("Delete");
+function DeleteBlock({ documentId }) {
+  const deleteTicket = async () => {
+    const res = await axios.delete(
+      `http://localhost:8000/tickets/${documentId}`
+    );
+    const success = res.status === 200;
+    if (success) {
+      window.location.reload();
+    }
   };
 
   return (
