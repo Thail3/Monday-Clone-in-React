@@ -13,19 +13,20 @@ const url =
 const token =
   "AstraCS:sdpFhcTSJfyRQoxYaMGYOEih:62a37633460e900384a1105eaff882ad7cce93e8b6e5bad2e22c70e0b2019b23";
 
-app.get("tickets", async (req, res) => {
+app.get("/tickets", async (req, res) => {
   const options = {
     method: "GET",
     headers: {
-      Accepts: "application/json",
+      Accept: "application/json",
       "X-Cassandra-Token": token,
     },
   };
   try {
-    const res = await axios(`${url}?page-size=20`, options);
-    res.status(200).json(res.data);
-  } catch (e) {
-    res.status(500).json({ message: e });
+    const response = await axios(`${url}?page-size=20`, options);
+    res.status(200).json(response.data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err });
   }
 });
 

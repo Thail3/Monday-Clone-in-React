@@ -18,10 +18,11 @@ function TicketPage() {
     e.preventDefault();
 
     if (!editMode) {
-      const res = await axios.post("http://localhost:8000/tickets", {
+      console.log("posting");
+      const response = await axios.post("http://localhost:8000/tickets", {
         formData,
       });
-      const success = res.status === 200;
+      const success = response.status === 200;
       if (success) {
         navigate("/");
       }

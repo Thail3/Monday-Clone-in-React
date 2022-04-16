@@ -67,7 +67,7 @@ function Dashboard() {
             <div key={categoryIndex}>
               <h3>{uniqueCategory}</h3>
               {tickets
-                ?.filter((ticket) => ticket.category === uniqueCategory)
+                .filter((ticket) => ticket.category === uniqueCategory)
                 .map((filteredTicket, _index) => (
                   <TicketCard
                     id={_index}
