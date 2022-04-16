@@ -1,23 +1,34 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CategoriesContext from "../Context/Context";
 
-function TicketPage() {
+function TicketPage({ editMode }) {
+  const { categories, setCategories } = useContext(CategoriesContext);
+
   const [formData, setFormData] = useState({
     status: "not started",
     progress: 0,
+    category: categories[0],
     timestamp: new Date().toISOString(),
   });
-  const { categories, setCategories } = useContext(CategoriesContext);
   console.log(formData);
 
-  const editMode = false;
-
   const navigate = useNavigate();
+  let { id } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (editMode) {
+      const response = await axios.put(`http://localhost:8000/tickets/${id}`, {
+        data: formData,
+      });
+      const success = response.status === 200;
+      if (success) {
+        navigate("/");
+      }
+    }
 
     if (!editMode) {
       console.log("posting");
@@ -40,6 +51,17 @@ function TicketPage() {
       [name]: value,
     }));
   };
+
+  const fetchData = async () => {
+    const res = await axios.get(`http://localhost:8000/tickets/${id}`);
+    setFormData(res.data.data);
+  };
+
+  useEffect(() => {
+    if (editMode) {
+      fetchData();
+    }
+  }, []);
 
   return (
     <div className="ticket">
@@ -70,7 +92,7 @@ function TicketPage() {
             <label>Category</label>
             <select
               name="category"
-              value={FormData.category || categories[0]}
+              value={FormData.category || "New category"}
               onChange={handleChange}
             >
               {categories?.map((category, _index) => (
@@ -161,23 +183,23 @@ function TicketPage() {
                   value={formData.status}
                   onChange={handleChange}
                 >
-                  <option selected={formData.status === "done"} value="done">
+                  <option selected={formData.status == "done"} value="done">
                     Done
                   </option>
                   <option
-                    selected={formData.status === "working on it"}
+                    selected={formData.status == "working on it"}
                     value="working on it"
                   >
                     Working on it
                   </option>
-                  <option selected={formData.status === "stuck"} value="stuck">
+                  <option selected={formData.status == "stuck"} value="stuck">
                     Stuck
                   </option>
                   <option
-                    selected={formData.status === "not stated"}
-                    value="not stated"
+                    selected={formData.status == "not started"}
+                    value="not started"
                   >
-                    Not stated
+                    Not Started
                   </option>
                 </select>
               </>

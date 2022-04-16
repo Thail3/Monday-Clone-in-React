@@ -41,7 +41,7 @@ function Dashboard() {
     "rgb(255,223,186)",
     "rgb(255,255,186)",
     "rgb(186,255,201)",
-    "rgb(186,255,255)",
+    "rgb(186,225,255)",
   ];
 
   const uniqueCategories = [
